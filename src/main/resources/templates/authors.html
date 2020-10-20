@@ -1,5 +1,6 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.
 7.5/angular.min.js"> </script>
@@ -13,7 +14,13 @@
           <a href="/index" class="label ml-5">Книжный Магазин</a>
           <div class="links d-flex justify-content-between">
             <a href="/books" class=link>Книги</a>
-            <div class="add mr-3"><p>+</p></div>
+
+              <div sec:authorize="isAuthenticated()">
+                <div class="add mr-3"><p>+</p></div>
+              </div>
+              <div sec:authorize="isAnonymous()" >
+                  <h1><a href="/login">Login</a></h1>
+              </div>
             <a href="/authors" class=link>Авторы</a>
           </div>
       </div>
