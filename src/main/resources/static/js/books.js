@@ -42,6 +42,9 @@ function create_card(data){
         <p class="card-text">${data.iyear}</p>
         <div class="delete btn btn-dark" value="${data.id}">Удалить</div>
     </div>`));
+  $(".delete").on("click", function(elem){
+      delete_ajax("api/books/", $(this).attr("value")).done(success_message("DELETED")).then(hide_card($(this).attr("value")));
+      })
 
 }
 
