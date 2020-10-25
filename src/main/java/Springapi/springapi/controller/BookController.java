@@ -5,9 +5,11 @@ import Springapi.springapi.exception.ResourceNotFoundException;
 import Springapi.springapi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +40,7 @@ public class BookController {
         return bookRepository.save(book);
     }
 
-    @DeleteMapping("/books/{id}")
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.DELETE)
     public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long bookId) throws Exception {
         BookModel book =
                 bookRepository
