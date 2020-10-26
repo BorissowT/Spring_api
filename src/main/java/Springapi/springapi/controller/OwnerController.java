@@ -5,9 +5,11 @@ import Springapi.springapi.entity.OwnerModel;
 import Springapi.springapi.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,12 +39,20 @@ public class OwnerController {
     }
 
     @PostMapping("/owners")
-    public OwnerModel createOwner(@Valid @RequestBody OwnerModel owner) {
+    public OwnerModel createOwner(@Valid @RequestBody OwnerModel owner,
+                                  @AuthenticationPrincipal Principal principal) {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         return ownerRepository.save(owner);
     }
 
     @DeleteMapping("/owners/{id}")
-    public Map<String, Boolean> deleteOwner(@PathVariable(value = "id") Long ownerId) throws Exception {
+    public Map<String, Boolean> deleteOwner(@PathVariable(value = "id") Long ownerId,
+                                            @AuthenticationPrincipal Principal principal) throws Exception {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         OwnerModel owner =
                 ownerRepository
                         .findById(ownerId)

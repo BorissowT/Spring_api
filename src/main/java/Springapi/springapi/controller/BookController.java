@@ -36,12 +36,21 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public BookModel createBook(@Valid @RequestBody BookModel book) {
+    public BookModel createBook(@Valid @RequestBody BookModel book,
+                                @AuthenticationPrincipal Principal principal) {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         return bookRepository.save(book);
     }
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.DELETE)
-    public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long bookId) throws Exception {
+    public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long bookId,
+                                           @AuthenticationPrincipal Principal principal) throws Exception {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
+
         BookModel book =
                 bookRepository
                         .findById(bookId)

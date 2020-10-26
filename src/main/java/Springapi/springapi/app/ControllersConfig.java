@@ -12,6 +12,7 @@ public class ControllersConfig extends WebMvcConfigurerAdapter {
 
         registry.addViewController("/index").setViewName("index");
         registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/forbidden").setViewName("forbidden");
     }
 
 }

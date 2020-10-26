@@ -5,9 +5,11 @@ import Springapi.springapi.exception.ResourceNotFoundException;
 import Springapi.springapi.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,12 +36,20 @@ public class ClientController {
     }
 
     @PostMapping("/clients")
-    public ClientModel createClient(@Valid @RequestBody ClientModel client) {
+    public ClientModel createClient(@Valid @RequestBody ClientModel client,
+                                    @AuthenticationPrincipal Principal principal) {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         return clientRepository.save(client);
     }
 
     @DeleteMapping("/clients/{id}")
-    public Map<String, Boolean> deleteClient(@PathVariable(value = "id") Long clientId) throws Exception {
+    public Map<String, Boolean> deleteClient(@PathVariable(value = "id") Long clientId,
+                                             @AuthenticationPrincipal Principal principal) throws Exception {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         ClientModel client =
                 clientRepository
                         .findById(clientId)
