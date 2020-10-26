@@ -6,9 +6,11 @@ import Springapi.springapi.exception.ResourceNotFoundException;
 import Springapi.springapi.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,12 +38,20 @@ public class AuthorController {
     }
 
     @PostMapping("/authors")
-    public AuthorModel createAuthor(@Valid @RequestBody AuthorModel author) {
+    public AuthorModel createAuthor(@Valid @RequestBody AuthorModel author,
+                                    @AuthenticationPrincipal Principal principal) {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         return authorRepository.save(author);
     }
 
     @DeleteMapping("/authors/{id}")
-    public Map<String, Boolean> deleteAuthor(@PathVariable(value = "id") Long authorId) throws Exception {
+    public Map<String, Boolean> deleteAuthor(@PathVariable(value = "id") Long authorId,
+                                             @AuthenticationPrincipal Principal principal) throws Exception {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         AuthorModel author =
                 authorRepository
                         .findById(authorId)

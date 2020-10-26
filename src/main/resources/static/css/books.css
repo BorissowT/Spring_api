@@ -215,3 +215,7 @@ flex-wrap: wrap;
   z-index: 1;
   visibility: hidden;
 }
+
+.delete{
+  cursor: pointer;
+}

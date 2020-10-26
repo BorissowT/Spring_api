@@ -1,44 +1,12 @@
 var delete_ajax = function(url, id){
-  $.ajax({
+  return $.ajax({
     type:'DELETE',
     url: url+id,
-    success: function (data) {
-      succes_message("sucessfully deleted");
-      fill_container();      
-  },
-    error: function (jqXHR, textStatus, errorThrown) {
-    }
+    error: function (request, status, error) {
+      alert(request.responseText);
+  }
   });
 }
-
-var create_card = function(element){
-  $(".cards_container").append($('<div class="card" style="width: 18rem;"><img class="card-img-top" src="img/book.jpg" alt="Card image cap"><div class="card-body"><h5 class="card-title">Card title</h5><p class="card-text"></p><div id="delete_id_'+ element.id +'" class="delete btn btn-dark">Удалить</div></div></div>').attr("id", element.id));
-  $(".card-title" ,"#"+element.id).text(element.title);
-  $(".card-text","#"+element.id).text(element.iyear);
-  $(".delete[id='delete_id_"+ element.id +"']").on("click", function(){
-    delete_ajax("api/books/", element.id);
-  })
-}
-
-var fill_container = function(){
-  $(".cards_container").empty();
-  $.ajax({
-    type:'GET',
-      url: '/api/books',
-      success: function (data) {
-        books = data;
-        books.forEach(element => {
-          create_card(element);
-        });
-      },
-      error: function (jqXHR, textStatus, errorThrown) {}
-  });
-  
-}
-
-//! START !//
-fill_container();
-//! START !//
 
 var open_form = function(){
   $("#grey_cart_background").css({"visibility":"visible"});
@@ -57,7 +25,7 @@ var close_form = function(){
  
 }
 
-var succes_message = function(text){
+var success_message = function(text, event){
   $(".alert_success").text($(this).prev().prev().text() + text);
   $(".alert_success").css({"visibility":"visible"});
   $(".alert_success").animate({opacity: "-0"},3000,function(){
@@ -65,7 +33,28 @@ var succes_message = function(text){
   });
 }
 
+function create_card(data){
+  $(".cards_container").append($(`
+  <div id=${data.id} class="card" style="width: 18rem;">
+    <img class="card-img-top" src="img/book.jpg" alt="Card image cap">
+        <div class="card-body">
+        <h5 class="card-title"><p class="card-text">${data.title}</p></h5>
+        <p class="card-text">${data.iyear}</p>
+        <div class="delete btn btn-dark" value="${data.id}">Удалить</div>
+    </div>`));
+  $(".delete").on("click", function(elem){
+      delete_ajax("api/books/", $(this).attr("value")).done(success_message("DELETED")).then(hide_card($(this).attr("value")));
+      })
 
+}
+
+function hide_card(id){
+$(`.card[id="${id}"]`).remove();
+}
+
+$(".delete").on("click", function(elem){
+delete_ajax("api/books/", $(this).attr("value")).done(success_message("DELETED")).then(hide_card($(this).attr("value")));
+})
 
 $(".exit_form").on("click",function(){
   close_form();
@@ -92,8 +81,8 @@ $(".create").on("click", function(){
     data: JSON.stringify(book),
     success: function (data) {
       close_form();
-      succes_message("added to DB!");
-      fill_container();      
+      success_message("added to DB!");
+      create_card(data);     
   },
     error: function (jqXHR, textStatus, errorThrown) {
     }

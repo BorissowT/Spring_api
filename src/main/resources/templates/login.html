@@ -2,31 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
+        <link href="css/login.css" rel="stylesheet"></link>
         <title>Log in</title>
     </head>
     <body id="LoginForm">
-        <div class="container">           
+        <div class="container">
             <div class="login-form">
-                <div class="main-div">
-                    <div class="panel">
-                        <h2 class="form-heading">Our University Database</h2>
-                        <p>Please enter your login and password</p>                              
-                        <div th:if="${param.error}"  class="alert alert-danger">Unknown username or password.</div>
-                        <div th:if="${param.logout}" class="alert alert-success">Good bye!</div>
+                <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+                <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+                <div class="sidenav">
+                    <div class="login-main-text">
+                        <h2>Книжный Магазин<br> Login Page</h2>
+                        <p>Login or register from here to access.</p>
                     </div>
-                    <form th:action="@{/login}" method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="login" name="login" placeholder="Login"/>
+                </div>
+                <div class="main">
+                    <div class="col-md-6 col-sm-12">
+                        <div class="login-form">
+                            <div class="main-div">
+                                <div class="panel">
+                                    <h2 class="form-heading">Bookstore account</h2>
+                                    <p>Please enter your login and password</p>
+                                    <div th:if="${param.error}"  class="alert alert-danger">Unknown username or password.</div>
+                                    <div th:if="${param.logout}" class="alert alert-success">Good bye!</div>
+                                </div>
+                            </div>
+                            <form id="Login" th:action="@{/login}" method="post">
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-control" id="login" name="login" placeholder="Login"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"/>
+                                </div>
+                                <button type="submit" class="btn btn-black">Login</button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password"/>
-                        </div>                       
-      
-                        <div class="forgot">
-                            <!--<a href="reset.html">Forgot password?</a>-->
-                        </div>                        
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
+                    </div>
+                </div>
                 </div>
             </div></div>
     </body>

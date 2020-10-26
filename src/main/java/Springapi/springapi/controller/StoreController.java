@@ -6,9 +6,11 @@ import Springapi.springapi.exception.ResourceNotFoundException;
 import Springapi.springapi.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,12 +38,20 @@ public class StoreController {
     }
 
     @PostMapping("/stores")
-    public StoreModel createStore(@Valid @RequestBody StoreModel store) {
+    public StoreModel createStore(@Valid @RequestBody StoreModel store,
+                                  @AuthenticationPrincipal Principal principal) {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         return storeRepository.save(store);
     }
 
     @DeleteMapping("/stores/{id}")
-    public Map<String, Boolean> deleteStore(@PathVariable(value = "id") Long storeId) throws Exception {
+    public Map<String, Boolean> deleteStore(@PathVariable(value = "id") Long storeId,
+                                            @AuthenticationPrincipal Principal principal) throws Exception {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         StoreModel store =
                 storeRepository
                         .findById(storeId)

@@ -5,9 +5,11 @@ import Springapi.springapi.exception.ResourceNotFoundException;
 import Springapi.springapi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,12 +36,21 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public BookModel createBook(@Valid @RequestBody BookModel book) {
+    public BookModel createBook(@Valid @RequestBody BookModel book,
+                                @AuthenticationPrincipal Principal principal) {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
         return bookRepository.save(book);
     }
 
-    @DeleteMapping("/books/{id}")
-    public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long bookId) throws Exception {
+    @RequestMapping(value = "/books/{id}", method = RequestMethod.DELETE)
+    public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long bookId,
+                                           @AuthenticationPrincipal Principal principal) throws Exception {
+        if (principal == null) {
+            throw new ForbiddenException();
+        }
+
         BookModel book =
                 bookRepository
                         .findById(bookId)
