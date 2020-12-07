@@ -2,6 +2,7 @@ package Springapi.springapi.controller;
 
 import Springapi.springapi.entity.AuthorModel;
 import Springapi.springapi.exception.ResourceNotFoundException;
+import Springapi.springapi.kafka.KafkaProducer;
 import Springapi.springapi.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class AuthorController {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
     private static final String TOPIC = "TEST1";
+    
+    @Autowired
+    KafkaProducer kafkaProducer;
 
     @Autowired
     private AuthorRepository authorRepository;
@@ -50,7 +54,14 @@ public class AuthorController {
         }
 
         sendMessage("created autor: " + author.getFNAME() + " " + author.getLNAME());
-        return authorRepository.save(author);
+        AuthorModel savedAuthor = authorRepository.save(author);
+        try{
+            kafkaProducer.sendMessage(author);
+        }
+        catch(Exception e){
+            return null;            // Always must return something
+        }
+        return savedAuthor;
     }
 
     @DeleteMapping("/authors/{id}")
