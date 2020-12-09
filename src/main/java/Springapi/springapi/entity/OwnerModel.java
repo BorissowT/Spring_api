@@ -23,7 +23,7 @@ public class OwnerModel {
     private int profit;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn( name = "Store_OWNER_ID", referencedColumnName = "OWNER_ID")
+    @JoinColumn( name = "STORE_OWNER_ID", referencedColumnName = "OWNER_ID")
     List<StoreModel> stores = new ArrayList<>();
 
 //ID

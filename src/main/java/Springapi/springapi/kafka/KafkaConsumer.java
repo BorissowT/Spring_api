@@ -26,13 +26,18 @@ public class KafkaConsumer {
     @Autowired
     AuthorRepository authorRepository;
 
-    @KafkaListener(topics = "TEST2", groupId = "group0")
-    public void consume(ConsumerRecord<String,String> message) throws IOException {
+    @KafkaListener(topics = "TEST2", groupId = "group1")
+    public void consume(ConsumerRecord<String,String> message) {
+        try {
         System.out.print(String.format("#### -> Consumed message -> %s", message));
         log.info(String.format("#### -> Consumed message -> %s", message));
         ObjectMapper mapper = new ObjectMapper();
         AuthorModel authorModel = mapper.readValue(message.value(), AuthorModel.class);
         authorRepository.save(authorModel);
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
     }
 
 }
