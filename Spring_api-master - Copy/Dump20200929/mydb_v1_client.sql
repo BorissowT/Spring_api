@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mydb_v2
+-- Host: 127.0.0.1    Database: mydb_v1
 -- ------------------------------------------------------
 -- Server version	8.0.21
 
@@ -16,34 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `author`
+-- Table structure for table `client`
 --
 
-DROP TABLE IF EXISTS `author`;
+DROP TABLE IF EXISTS `client`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `author` (
-  `AUTHOR_ID` int NOT NULL AUTO_INCREMENT,
-  `AUTHOR_STORE_ID` int NOT NULL,
+CREATE TABLE `client` (
+  `CLIENT_ID` int NOT NULL AUTO_INCREMENT,
+  `CLIENT_STORE_ID` int NOT NULL,
   `FNAME` varchar(145) DEFAULT NULL,
   `LNAME` varchar(145) DEFAULT NULL,
-  `BIRTH_YEAR` int DEFAULT NULL,
-  PRIMARY KEY (`AUTHOR_ID`),
-  UNIQUE KEY `AUTHOR_ID_UNIQUE` (`AUTHOR_ID`),
-  KEY `fk_AUTHOR_STORE1_idx` (`AUTHOR_STORE_ID`),
-  CONSTRAINT `FK4926aa7iy3dib32kumv3qqj6t` FOREIGN KEY (`AUTHOR_STORE_ID`) REFERENCES `store` (`STORE_ID`),
-  CONSTRAINT `fk_AUTHOR_STORE1` FOREIGN KEY (`AUTHOR_STORE_ID`) REFERENCES `store` (`STORE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `ADDRESS` varchar(150) DEFAULT NULL,
+  `EMAIL` varchar(145) DEFAULT NULL,
+  PRIMARY KEY (`CLIENT_ID`),
+  UNIQUE KEY `CLIENT_ID_UNIQUE` (`CLIENT_ID`),
+  KEY `fk_CLIENT_STORE1_idx` (`CLIENT_STORE_ID`),
+  CONSTRAINT `FK3mji23n4viqkhbxb3gi685gls` FOREIGN KEY (`CLIENT_STORE_ID`) REFERENCES `store` (`STORE_ID`),
+  CONSTRAINT `fk_CLIENT_STORE1` FOREIGN KEY (`CLIENT_STORE_ID`) REFERENCES `store` (`STORE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `author`
+-- Dumping data for table `client`
 --
 
-LOCK TABLES `author` WRITE;
-/*!40000 ALTER TABLE `author` DISABLE KEYS */;
-INSERT INTO `author` VALUES (3,6,'Henry','Thoreau',1817);
-/*!40000 ALTER TABLE `author` ENABLE KEYS */;
+LOCK TABLES `client` WRITE;
+/*!40000 ALTER TABLE `client` DISABLE KEYS */;
+INSERT INTO `client` VALUES (4,6,'Action','Bronson','Stateten Island','Bronson@action.com');
+/*!40000 ALTER TABLE `client` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-29 17:44:21
+-- Dump completed on 2020-09-29 17:44:22

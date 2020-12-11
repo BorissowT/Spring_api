@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: mydb_v2
+-- Host: 127.0.0.1    Database: mydb_v1
 -- ------------------------------------------------------
 -- Server version	8.0.21
 
@@ -16,34 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `store`
+-- Dumping events for database 'mydb_v1'
 --
 
-DROP TABLE IF EXISTS `store`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `store` (
-  `STORE_ID` int NOT NULL AUTO_INCREMENT,
-  `STORE_OWNER_ID` int NOT NULL,
-  `CAPACITY_SQM` int DEFAULT NULL,
-  `ADDRESS` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`STORE_ID`),
-  UNIQUE KEY `STORE_ID_UNIQUE` (`STORE_ID`),
-  KEY `fk_STORE_OWNER1_idx` (`STORE_OWNER_ID`),
-  CONSTRAINT `fk_STORE_OWNER1` FOREIGN KEY (`STORE_OWNER_ID`) REFERENCES `owner` (`OWNER_ID`),
-  CONSTRAINT `FKn37r3x4q2apx0b6yxjt67mcse` FOREIGN KEY (`STORE_OWNER_ID`) REFERENCES `owner` (`OWNER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `store`
+-- Dumping routines for database 'mydb_v1'
 --
-
-LOCK TABLES `store` WRITE;
-/*!40000 ALTER TABLE `store` DISABLE KEYS */;
-INSERT INTO `store` VALUES (6,6,5000,'Brooklyn Ocean AVE');
-/*!40000 ALTER TABLE `store` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -54,4 +32,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-29 17:44:22
+-- Dump completed on 2020-09-29 17:44:23
