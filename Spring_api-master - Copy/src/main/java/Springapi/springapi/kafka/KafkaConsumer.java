@@ -26,7 +26,7 @@ public class KafkaConsumer {
     @Autowired
     AuthorRepository authorRepository;
 
-    @KafkaListener(topics = "TEST4", groupId = "group0")
+    @KafkaListener(topics = "TEST2", groupId = "group0")
     public void consume(ConsumerRecord<String,String> message) throws IOException {
         System.out.print(String.format("#### -> Consumed message -> %s", message));
         log.info(String.format("#### -> Consumed message -> %s", message));

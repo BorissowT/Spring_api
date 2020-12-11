@@ -1,0 +1,65 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="header :: myheader"></head>
+<div class="fixed-top">
+    <nav class="navmenu smart-scroll">
+      <div class="d-flex justify-content-between align-items-center">
+          <a href="/index" class="label ml-5">Книжный Магазин</a>
+          <div class="links d-flex justify-content-between">
+            <a href="/books" class=link>Книги</a>
+              <div sec:authorize="isAuthenticated()">
+                <div class="add mr-3"><p>+</p></div>
+              </div>
+            <a href="/authors" class=link>Авторы</a>
+              <form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/logout}">
+                  <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger my-2 my-sm-0 btn-sm mr-3" type="submit">Logout</button>
+                  <button sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-outline-info my-2 my-sm-0 btn-sm mr-3" type="submit">Login</button>
+              </form>
+          </div>
+      </div>
+    </nav>
+    <div class="alert alert-success alert_success" value="down" role="alert"></div>  
+  </div>
+  <div class="start_picture"><img src="img/start_pic.jpg"></div>
+  <div class="form" value="closed">
+    <div class="d-flex justify-content-between align-items-center mt-0" style="height: 40px;">
+      <h1>Form</h1>
+      <div class="exit_form"><img class="ml-1" src="img/close.png" width="20px" height="20px"></div>
+    </div>
+    <hr>
+    <div class="inputs">
+      <div class="inputs_container">
+        <label class="align-self-start mb-0" for="fname">Authors first name:</label>
+        <input class="input" id="fname">
+        <label class="align-self-start mb-0" for="lname">Authors last name:</label>
+        <input class="input" id="lname">
+        <label class="align-self-start mb-0" for="byear">Birth year:</label>
+        <input class="input" id="byear">
+        <label class="align-self-start mb-0" for="store">Id of Store where author is:</label>
+        <input class="input" id="store">
+      </div>
+    </div>
+    <hr>
+    <div class="d-flex">
+      <div class="create">
+        <p class="mb-0">CREATE</p>
+      </div>
+    </div>
+  </div>
+  <div id="grey_cart_background" class="grey_cart_background"></div>
+  <div class="container">
+    <div class="cards_container">
+        <div th:each="author: ${authors}" th:id="${author.getId()}" class="card" style="width: 18rem;">
+          <img class="card-img-top" src="img/book.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><p th:text="${author.getFNAME()}" class="card-text"></p></h5>
+            <p th:text="${author.getBYEAR()}" class="card-text"></p>
+            <div sec:authorize="isAuthenticated()" class="delete btn btn-dark" th:value="${author.getId()}">Удалить</div>
+          </div>
+        </div>
+      </div>
+  </div>
+<div th:replace="scripts :: myscripts"></div>
+<script src="js/authors.js"></script>
+</html>

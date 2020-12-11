@@ -20,9 +20,9 @@ import java.util.Map;
 
 public class AuthorController {
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-    private static final String TOPIC = "TEST1";
+    // @Autowired
+    // private KafkaTemplate<String, String> kafkaTemplate;
+    // private static final String TOPIC = "TEST1";
     
     @Autowired
     KafkaProducer kafkaProducer;
@@ -81,8 +81,8 @@ public class AuthorController {
         return response;
     }
 
-    public void sendMessage(String msg) {
-        kafkaTemplate.send(TOPIC, msg);
-    }
+    // public void sendMessage(String msg) {
+    //     kafkaTemplate.send(TOPIC, msg);
+    // }
 
 }
