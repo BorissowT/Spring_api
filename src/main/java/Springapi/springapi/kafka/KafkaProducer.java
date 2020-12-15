@@ -28,6 +28,7 @@ public class KafkaProducer {
 
     public void sendMessage(AuthorModel authorModel) throws JsonProcessingException {
         log.info(String.format("#### -> Producing message -> %s", authorModel.toString()));
+        
         ObjectMapper mapper = new ObjectMapper();
         String message  = mapper.writeValueAsString(authorModel);
         this.kafkaTemplate.send(TOPIC, message);
